@@ -1,18 +1,18 @@
 import Data.Char (digitToInt)
 
--- point free style: it's awesome
+{- only intended for positive numbers -}
 toDigits :: Int -> [Int]
 toDigits = map digitToInt . show
 
 toDigitsRev :: Int -> [Int]
 toDigitsRev = map digitToInt . reverse . show
 
-{- # double every other value # -}
+{- # double every other value from the right # -}
 -- 1. pattern matching
 doubleP :: [Int] -> [Int]
 doubleP [] = []
+doubleP (x:[]) = [x]
 doubleP (x:y:xs) = x:(y * 2): (doubleP xs)
-doubleP [x] = [x]
 
 -- 2. more expressive with zipWith
 doubleZ :: [Int] -> [Int]
@@ -22,6 +22,7 @@ doubleZ = zipWith (*) (cycle [1, 2])
  - doubleZ = zipWith ($) (cycle [id, (*2)]) #
  - Found this particular method on StackOverflow -}
 
+{- # very ineficient way # -}
 doubleCard :: [Int] -> [Int]
 doubleCard = reverse . doubleZ . reverse
 
